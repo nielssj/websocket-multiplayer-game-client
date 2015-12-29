@@ -1,0 +1,10 @@
+.tile {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    float: left;
+}
+
+h1 {
+    -webkit-margin-start: 10px;
+}
