@@ -2,17 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import TileGrid from './TileGrid.js'
-import { turnTile } from '../actions.js'
 
 export default class App extends Component {
     render() {
-        const { dispatch, tiles} = this.props; // Injected by connect() call
+        const { tiles } = this.props; // Injected by connect() call
         return (
             <div>
-                <TileGrid
-                    tiles={tiles}
-                    onTileClick={index => dispatch(turnTile(index)) }
-                />
+                <TileGrid tiles={tiles} />
             </div>
         )
     }
@@ -28,8 +24,8 @@ App.propTypes = {
     ).isRequired
 };
 
-function select(state) {
+function mapStateToProps(state) {
     return state;
 }
 
-export default connect(select)(App)
+export default connect(mapStateToProps)(App)

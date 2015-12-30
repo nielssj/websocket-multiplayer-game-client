@@ -3,7 +3,7 @@ import Tile from './Tile.js'
 
 export default class TileGrid extends Component {
     render() {
-        const { onTileClick, tiles } = this.props;
+        const { tiles } = this.props;
 
         let style = {
             width: Math.sqrt(tiles.length) * 140
@@ -14,7 +14,7 @@ export default class TileGrid extends Component {
                 {tiles.map((tile, index) =>
                     <Tile {...tile}
                         key={index}
-                        onClick={() => this.props.onTileClick(index)}
+                        index={index}
                     />
                 )}
             </div>
@@ -23,7 +23,6 @@ export default class TileGrid extends Component {
 }
 
 TileGrid.propTypes = {
-    onTileClick: PropTypes.func.isRequired,
     tiles: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string,
