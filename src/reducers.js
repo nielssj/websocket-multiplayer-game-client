@@ -8,9 +8,11 @@ import { FETCH_GAME_REQUEST,
 } from "./actions.js"
 
 const initialState = {
-    numTilesTurned: 0,
-    lastTurned: 0,
-    tiles: []
+    isFetching: false,
+    game: {
+        tiles: [],
+        points: 0
+    }
 };
 
 const memoryGame = (state = initialState, action = null) => {
@@ -22,7 +24,7 @@ const memoryGame = (state = initialState, action = null) => {
         case FETCH_GAME_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
-                tiles: action.game.tiles
+                game: action.game
             });
         case FETCH_GAME_FAILURE:
             // FIXME: Implement this to show some kind of user-friendly error
@@ -34,7 +36,7 @@ const memoryGame = (state = initialState, action = null) => {
         case TURN_TILE_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
-                tiles: action.game.tiles
+                game: action.game
             });
         case TURN_TILE_FAILURE:
             // FIXME: Implement this to show some kind of user-friendly error

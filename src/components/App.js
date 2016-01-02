@@ -11,7 +11,7 @@ export default class App extends Component {
     }
 
     render() {
-        const { tiles } = this.props; // Injected by connect() call
+        const { tiles, points } = this.props.game; // Injected by connect() call
         return (
             <div>
                 <TileGrid tiles={tiles} />
@@ -21,13 +21,16 @@ export default class App extends Component {
 }
 
 App.propTypes = {
-    tiles: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string,
-            turned: PropTypes.bool.isRequired,
-            completed: PropTypes.bool.isRequired
-        }).isRequired
-    ).isRequired
+    game: PropTypes.shape({
+        tiles: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string,
+                turned: PropTypes.bool.isRequired,
+                completed: PropTypes.bool.isRequired
+            }).isRequired
+        ).isRequired,
+        points: PropTypes.number.isRequired
+    })
 };
 
 function mapStateToProps(state) {
