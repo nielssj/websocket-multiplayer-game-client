@@ -1,11 +1,26 @@
 import fetch from 'isomorphic-fetch'
 
+export const START_GAME_REQUEST = 'START_GAME_REQUEST';
+export const START_GAME_SUCCESS= 'START_GAME_SUCCESS';
+export const START_GAME_FAILURE = 'START_GAME_FAILURE';
 export const FETCH_GAME_REQUEST = 'FETCH_GAME_REQUEST';
 export const FETCH_GAME_SUCCESS = 'FETCH_GAME_SUCCESS';
 export const FETCH_GAME_FAILURE = 'FETCH_GAME_FAILURE';
 export const TURN_TILE_REQUEST = 'TURN_TILE_REQUEST';
 export const TURN_TILE_SUCCESS = 'TURN_TILE_SUCCESS';
 export const TURN_TILE_FAILURE = 'TURN_TILE_FAILURE';
+
+function startGameRequest() {
+    return { type: START_GAME_REQUEST }
+}
+
+function startGameSuccess(game) {
+    return { type: START_GAME_SUCCESS, game }
+}
+
+function startGameFailure(error) {
+    return { type: START_GAME_FAILURE, error }
+}
 
 function fetchGameRequest() {
     return { type: FETCH_GAME_REQUEST }
@@ -31,27 +46,40 @@ function turnTileFailure(error) {
     return { type: TURN_TILE_FAILURE, error }
 }
 
-export function turnTile(index) {
+export function turnTile(gameId, tileId) {
     return dispatch => {
         dispatch(turnTileRequest());
-        return fetch("http://localhost:3000/memory/game/move", {
+        return fetch(`http://localhost:3000/memory/game/${gameId}/move`, {
             method: 'post',
             headers: { "Content-Type": "application/json", "Accept": "application/json" },
-            body: JSON.stringify({ type: "TURN_TILE", tileId: index })
+            body: JSON.stringify({ type: "TURN_TILE", tileId: tileId})
         })
             .then(response => response.json())
             .then(game => {
-                setTimeout(() => dispatch(fetchGame()), 1000);
+                setTimeout(() => dispatch(fetchGame(gameId)), 1000);
                 return dispatch(turnTileSuccess(game))
             })
             .catch(response => dispatch(turnTileFailure(response)));
     }
 }
 
-export function fetchGame() {
+export function startGame() {
+    return dispatch => {
+        dispatch(startGameRequest());
+        return fetch("http://localhost:3000/memory/game", {
+            method: 'post',
+            headers: { "Content-Type": "application/json", "Accept": "application/json" }
+        })
+            .then(response => response.json())
+            .then(game => dispatch(startGameSuccess(game)))
+            .catch(response => dispatch(startGameFailure()));
+    }
+}
+
+export function fetchGame(gameId) {
     return dispatch => {
         dispatch(fetchGameRequest());
-        return fetch("http://localhost:3000/memory/game/aa051eca-0dbb-4911-8351-f6deb9ad3b45")
+        return fetch(`http://localhost:3000/memory/game/${gameId}`)
             .then(response => response.json())
             .then(game => dispatch(fetchGameSuccess(game)))
             .catch(response => dispatch(fetchGameFailure(response)));

@@ -16,5 +16,5 @@ export default class GameInfo extends Component {
 }
 
 GameInfo.propTypes = {
-    points: PropTypes.bool.isRequired
+    points: PropTypes.number.isRequired
 }

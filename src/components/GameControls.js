@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-//import { startNewGame } from '../actions.js'
+import { startGame } from '../actions.js'
 
 export default class GameControls extends Component {
     render() {
@@ -13,11 +13,8 @@ export default class GameControls extends Component {
     }
 
     onNewGameClick() {
-        const { index } = this.props;
         const { store } = this.context;
-
-        /*return () =>
-            store.dispatch(turnTile(index));*/
+        return () => store.dispatch(startGame());
     }
 }
 

@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux'
-import { FETCH_GAME_REQUEST,
+import {
+    START_GAME_REQUEST,
+    START_GAME_SUCCESS,
+    START_GAME_FAILURE,
+    FETCH_GAME_REQUEST,
     FETCH_GAME_SUCCESS,
     FETCH_GAME_FAILURE,
     TURN_TILE_REQUEST,
@@ -17,6 +21,18 @@ const initialState = {
 
 const memoryGame = (state = initialState, action = null) => {
     switch(action.type) {
+        case START_GAME_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        case START_GAME_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                game: action.game
+            });
+        case START_GAME_FAILURE:
+            // FIXME: Implement this to show some kind of user-friendly error
+            return state;
         case FETCH_GAME_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true
@@ -42,6 +58,7 @@ const memoryGame = (state = initialState, action = null) => {
             // FIXME: Implement this to show some kind of user-friendly error
             return state;
         default:
+            console.warn("Unknown action type encountered, action ignored..");
             return state;
     }
 };
