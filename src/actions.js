@@ -11,6 +11,8 @@ export const TURN_TILE_REQUEST = 'TURN_TILE_REQUEST';
 export const TURN_TILE_SUCCESS = 'TURN_TILE_SUCCESS';
 export const TURN_TILE_FAILURE = 'TURN_TILE_FAILURE';
 
+var socket = null;
+
 function startGameRequest() {
     return { type: START_GAME_REQUEST }
 }
@@ -48,7 +50,11 @@ function turnTileFailure(error) {
 }
 
 function listenToGame(dispatch, gameId) {
-    let socket = io(`http://localhost:3000/${gameId}`);
+    if(socket) {
+        socket.close();
+    }
+
+    socket = io(`http://localhost:3000/${gameId}`);
     socket.on("changed", game => {
         dispatch(fetchGameSuccess(game));
     })
@@ -76,9 +82,9 @@ export function startGame() {
         })
             .then(response => response.json())
             .then(game => {
+                console.log("Started game [" + game.id + "]");
                 listenToGame(dispatch, game.id);
-                dispatch(startGameSuccess(game))
-            })
+                dispatch(startGameSuccess(game))            })
             .catch(response => dispatch(startGameFailure()));
     }
 }
@@ -88,7 +94,11 @@ export function fetchGame(gameId) {
         dispatch(fetchGameRequest());
         return fetch(`http://localhost:3000/memory/game/${gameId}`)
             .then(response => response.json())
-            .then(game => dispatch(fetchGameSuccess(game)))
+            .then(game => {
+                console.log("Joined game [" + game.id + "]");
+                listenToGame(dispatch, game.id);
+                dispatch(fetchGameSuccess(game))
+            })
             .catch(response => dispatch(fetchGameFailure(response)));
     }
 }
