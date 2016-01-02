@@ -58,7 +58,7 @@ const memoryGame = (state = initialState, action = null) => {
             // FIXME: Implement this to show some kind of user-friendly error
             return state;
         default:
-            console.warn("Unknown action type encountered, action ignored..");
+            console.warn("Unknown action type encountered [" + action.type + "], action ignored..");
             return state;
     }
 };

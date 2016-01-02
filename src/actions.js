@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import io from 'socket.io-client';
 
 export const START_GAME_REQUEST = 'START_GAME_REQUEST';
 export const START_GAME_SUCCESS= 'START_GAME_SUCCESS';
@@ -46,6 +47,13 @@ function turnTileFailure(error) {
     return { type: TURN_TILE_FAILURE, error }
 }
 
+function listenToGame(dispatch, gameId) {
+    let socket = io(`http://localhost:3000/${gameId}`);
+    socket.on("changed", game => {
+        dispatch(fetchGameSuccess(game));
+    })
+}
+
 export function turnTile(gameId, tileId) {
     return dispatch => {
         dispatch(turnTileRequest());
@@ -55,10 +63,7 @@ export function turnTile(gameId, tileId) {
             body: JSON.stringify({ type: "TURN_TILE", tileId: tileId})
         })
             .then(response => response.json())
-            .then(game => {
-                setTimeout(() => dispatch(fetchGame(gameId)), 1000);
-                return dispatch(turnTileSuccess(game))
-            })
+            .then(game => dispatch(turnTileSuccess(game)))
             .catch(response => dispatch(turnTileFailure(response)));
     }
 }
@@ -71,7 +76,10 @@ export function startGame() {
             headers: { "Content-Type": "application/json", "Accept": "application/json" }
         })
             .then(response => response.json())
-            .then(game => dispatch(startGameSuccess(game)))
+            .then(game => {
+                listenToGame(dispatch, game.id);
+                dispatch(startGameSuccess(game))
+            })
             .catch(response => dispatch(startGameFailure()));
     }
 }
