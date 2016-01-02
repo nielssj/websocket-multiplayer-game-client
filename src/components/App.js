@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import TileGrid from './TileGrid.js'
 import GameInfo from './GameInfo.js'
+import GameControls from './GameControls.js'
 import { fetchGame } from '../actions.js';
 
 export default class App extends Component {
@@ -17,6 +18,7 @@ export default class App extends Component {
             <div>
                 <GameInfo points={points} />
                 <TileGrid tiles={tiles} />
+                <GameControls />
             </div>
         )
     }
