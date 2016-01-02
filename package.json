@@ -19,10 +19,13 @@
   },
   "homepage": "https://github.com/Foxandxss/angular-webpack-workflow",
   "dependencies": {
+    "babel-polyfill": "^6.3.14",
+    "isomorphic-fetch": "^2.2.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
-    "redux": "^3.0.4"
+    "redux": "^3.0.4",
+    "redux-thunk": "^1.0.3"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.7",

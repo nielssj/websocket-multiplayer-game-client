@@ -1,23 +1,11 @@
 import { combineReducers } from 'redux'
-import { TURN_TILE } from "./actions.js"
+import { TURN_TILE, FETCH_GAME_REQUEST, FETCH_GAME_SUCCESS, FETCH_GAME_FAILURE } from "./actions.js"
 
 const initialState = {
-    numTilesTurned: 1,
+    numTilesTurned: 0,
     lastTurned: 0,
-    tiles: [
-        { name: "green", turned: true, completed: false },
-        { turned: false, completed: false },
-        { turned: false, completed: false },
-        { turned: false, completed: false }
-    ]
+    tiles: []
 };
-
-const answer = [
-    { name: "green" },
-    { name: "red"},
-    { name: "green"},
-    { name: "red"}
-];
 
 const turnTile = (state, index) => {
     let tile = state.tiles[index];
@@ -85,6 +73,18 @@ const memoryGame = (state = initialState, action = null) => {
     switch(action.type) {
         case TURN_TILE:
             return turnTile(state, action.index);
+        case FETCH_GAME_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        case FETCH_GAME_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                tiles: action.game.tiles
+            });
+        case FETCH_GAME_FAILURE:
+            // FIXME: Implement this to show some kind of user-friendly error
+            return state;
         default:
             return state;
     }
