@@ -51,7 +51,7 @@ function turnTileFailure(error) {
 
 function listenToGame(dispatch, gameId) {
     if(socket) {
-        socket.close();
+        socket.disconnect();
     }
 
     socket = io(`http://localhost:3000/${gameId}`);
