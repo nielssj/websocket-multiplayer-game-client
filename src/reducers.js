@@ -51,8 +51,7 @@ const memoryGame = (state = initialState, action = null) => {
             });
         case TURN_TILE_SUCCESS:
             return Object.assign({}, state, {
-                isFetching: false,
-                game: action.game
+                isFetching: false
             });
         case TURN_TILE_FAILURE:
             // FIXME: Implement this to show some kind of user-friendly error

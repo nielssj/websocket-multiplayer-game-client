@@ -39,8 +39,8 @@ function turnTileRequest() {
     return { type: TURN_TILE_REQUEST }
 }
 
-function turnTileSuccess(game) {
-    return { type: TURN_TILE_SUCCESS, game }
+function turnTileSuccess() {
+    return { type: TURN_TILE_SUCCESS }
 }
 
 function turnTileFailure(error) {
@@ -62,8 +62,7 @@ export function turnTile(gameId, tileId) {
             headers: { "Content-Type": "application/json", "Accept": "application/json" },
             body: JSON.stringify({ type: "TURN_TILE", tileId: tileId})
         })
-            .then(response => response.json())
-            .then(game => dispatch(turnTileSuccess(game)))
+            .then(response => dispatch(turnTileSuccess()))
             .catch(response => dispatch(turnTileFailure(response)));
     }
 }
