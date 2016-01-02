@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import TileGrid from './TileGrid.js'
+import GameInfo from './GameInfo.js'
 import { fetchGame } from '../actions.js';
 
 export default class App extends Component {
@@ -14,6 +15,7 @@ export default class App extends Component {
         const { tiles, points } = this.props.game; // Injected by connect() call
         return (
             <div>
+                <GameInfo points={points} />
                 <TileGrid tiles={tiles} />
             </div>
         )
