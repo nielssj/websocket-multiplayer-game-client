@@ -18,7 +18,7 @@ export default class App extends Component {
             <div>
                 <GameInfo points={points} />
                 <TileGrid tiles={tiles} />
-                <GameControls />
+                <GameControls user={this.props.user} />
             </div>
         )
     }

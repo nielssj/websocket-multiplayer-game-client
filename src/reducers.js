@@ -8,7 +8,10 @@ import {
     FETCH_GAME_FAILURE,
     TURN_TILE_REQUEST,
     TURN_TILE_SUCCESS,
-    TURN_TILE_FAILURE
+    TURN_TILE_FAILURE,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE
 } from "./actions.js"
 
 const initialState = {
@@ -16,6 +19,9 @@ const initialState = {
     game: {
         tiles: [],
         points: 0
+    },
+    user: {
+        isLoggingIn: false
     }
 };
 
@@ -56,6 +62,27 @@ const memoryGame = (state = initialState, action = null) => {
         case TURN_TILE_FAILURE:
             // FIXME: Implement this to show some kind of user-friendly error
             return state;
+        case LOGIN_REQUEST:
+            return Object.assign({}, state, {
+                user: {
+                    isLoggingIn: true
+                }
+            });
+        case LOGIN_SUCCESS:
+            return Object.assign({}, state, {
+                user: {
+                    isLoggingIn: false,
+                    token: action.token,
+                    username: action.username
+                }
+            });
+        case LOGIN_FAILURE:
+            return Object.assign({}, state, {
+                user: {
+                    isLoggingIn: false,
+                    lastLoginError: action.error
+                }
+            });
         default:
             console.warn("Unknown action type encountered [" + action.type + "], action ignored..");
             return state;

@@ -21,9 +21,10 @@ export default class Tile extends Component {
     onClick() {
         const { store } = this.context;
         let gameId = store.getState().game.id;
+        let authToken = store.getState().user.token;
         let tileId = this.props.index;
         return () =>
-            store.dispatch(turnTile(gameId, tileId));
+            store.dispatch(turnTile(gameId, tileId, authToken));
     }
 }
 
