@@ -37,8 +37,7 @@ App.propTypes = {
                 turned: PropTypes.bool.isRequired,
                 completed: PropTypes.bool.isRequired
             }).isRequired
-        ).isRequired,
-        points: PropTypes.number.isRequired
+        ).isRequired
     })
 };
 
