@@ -13,3 +13,7 @@
 h1, p {
     -webkit-margin-start: 10px;
 }
+
+.joinText {
+    width: 255px
+}

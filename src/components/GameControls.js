@@ -4,7 +4,7 @@ import { startGame, fetchGame, login } from '../actions.js'
 export default class GameControls extends Component {
     constructor(props) {
         super(props)
-        this.state = { joinText: "" }
+        this.state = { joinText: "aa051eca-0dbb-4911-8351-f6deb9ad3b45" }
     }
 
     renderLogin() {
@@ -31,26 +31,49 @@ export default class GameControls extends Component {
         }
     }
 
+    renderNavigation() {
+        let user = this.props.user;
+        let joinText = this.state.joinText;
+        if(user.token) {
+            return (
+                <div>
+                    <p>
+                        <button onClick={this.onNewGameClick()}>New Game</button>
+                    </p>
+                    <p>
+                        <button onClick={this.handleJoinButtonClick.bind(this)}>Join game</button>
+                        <span> </span>
+                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className="joinText" />
+                    </p>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <p>
+                        <button onClick={this.handleJoinButtonClick.bind(this)}>Watch game</button>
+                        <span> </span>
+                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className="joinText" />
+                    </p>
+                </div>
+            )
+        }
+    }
+
     render() {
         let joinText = this.state.joinText;
         return (
             <div className="gameControls">
-                <p>
-                    <button onClick={this.onNewGameClick()}>New Game</button>
-                </p>
-                <p>
-                    <button onClick={this.handleJoinButtonClick.bind(this)}>Join game</button>
-                    <span> </span>
-                    <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} />
-                </p>
                 {this.renderLogin()}
+                {this.renderNavigation()}
             </div>
         )
     }
 
     onNewGameClick() {
         const { store } = this.context;
-        return () => store.dispatch(startGame());
+        let authToken = store.getState().user.token;
+        return () => store.dispatch(startGame(authToken));
     }
 
     handleJoinTextChanged(event) {

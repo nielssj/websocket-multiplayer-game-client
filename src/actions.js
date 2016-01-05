@@ -92,12 +92,16 @@ export function turnTile(gameId, tileId, authToken) {
     }
 }
 
-export function startGame() {
+export function startGame(authToken) {
     return dispatch => {
         dispatch(startGameRequest());
         return fetch("http://localhost:3000/memory/game", {
             method: 'post',
-            headers: { "Content-Type": "application/json", "Accept": "application/json" }
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": `Bearer ${authToken}`
+            }
         })
             .then(response => response.json())
             .then(game => {
