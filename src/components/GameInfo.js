@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 export default class GameInfo extends Component {
     render() {
-        const { players } = this.props;
+        const { players, gameId } = this.props;
 
         let playerItems = [];
         Object.keys(players).forEach(playerId => {
@@ -12,6 +12,7 @@ export default class GameInfo extends Component {
 
         return (
             <div className="gameInfo">
+                <p>GameID: {gameId}</p>
                 <ul>
                     {playerItems}
                 </ul>
@@ -21,5 +22,6 @@ export default class GameInfo extends Component {
 }
 
 GameInfo.propTypes = {
+    gameId: PropTypes.string.isRequired,
     players: PropTypes.object.isRequired
 }
