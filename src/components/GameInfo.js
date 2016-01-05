@@ -2,19 +2,24 @@ import React, { Component, PropTypes } from 'react'
 
 export default class GameInfo extends Component {
     render() {
-        const { points } = this.props;
+        const { players } = this.props;
+
+        let playerItems = [];
+        Object.keys(players).forEach(playerId => {
+            let player = players[playerId];
+            playerItems.push(<li>{player.username} - {player.points}</li>)
+        });
 
         return (
             <div className="gameInfo">
-                <p>
-                    <span>{points}</span>
-                    <span> points</span>
-                </p>
+                <ul>
+                    {playerItems}
+                </ul>
             </div>
         )
     }
 }
 
 GameInfo.propTypes = {
-    points: PropTypes.number.isRequired
+    players: PropTypes.object.isRequired
 }

@@ -8,11 +8,11 @@ import { startGame } from '../actions.js';
 
 export default class App extends Component {
     renderGame() {
-        const { tiles, points } = this.props.game; // Injected by connect() call
+        const { tiles, players } = this.props.game; // Injected by connect() call
         if(tiles.length > 0) {
             return (
                 <div>
-                    <GameInfo points={points} />
+                    <GameInfo players={players} />
                     <TileGrid tiles={tiles} />
                 </div>
             )
