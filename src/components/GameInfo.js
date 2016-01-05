@@ -7,7 +7,12 @@ export default class GameInfo extends Component {
         let playerItems = [];
         Object.keys(players).forEach(playerId => {
             let player = players[playerId];
-            playerItems.push(<li key={player.id}>{player.username} - {player.points}</li>)
+            let className = player.hasTurn ? "player hasTurn" : "player";
+            playerItems.push(
+                <li key={player.id} className={className}>
+                    {player.username} - {player.points}
+                </li>
+            )
         });
 
         return (

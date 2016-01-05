@@ -17,3 +17,7 @@ h1, p {
 .joinText {
     width: 255px
 }
+
+.hasTurn {
+    font-weight: bolder;
+}
