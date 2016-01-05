@@ -7,18 +7,23 @@ import GameControls from './GameControls.js'
 import { startGame } from '../actions.js';
 
 export default class App extends Component {
-    componentDidMount() {
-        const { dispatch } = this.props;
-        dispatch(startGame()); // Request initial state - TODO: Do this server-side
+    renderGame() {
+        const { tiles, points } = this.props.game; // Injected by connect() call
+        if(tiles.length > 0) {
+            return (
+                <div>
+                    <GameInfo points={points} />
+                    <TileGrid tiles={tiles} />
+                </div>
+            )
+        }
     }
 
     render() {
-        const { tiles, points } = this.props.game; // Injected by connect() call
         return (
             <div>
-                <GameInfo points={points} />
-                <TileGrid tiles={tiles} />
                 <GameControls user={this.props.user} />
+                {this.renderGame()}
             </div>
         )
     }
