@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { startGame, fetchGame, login } from '../actions.js'
+import { startGame, fetchGame, login, joinGame } from '../actions.js'
 
 export default class GameControls extends Component {
     constructor(props) {
@@ -41,7 +41,8 @@ export default class GameControls extends Component {
                         <button onClick={this.onNewGameClick()}>New Game</button>
                     </p>
                     <p>
-                        <button onClick={this.handleJoinButtonClick.bind(this)}>Join game</button>
+                        <button onClick={this.handleWatchButtonClick.bind(this)}>Watch game</button>
+                        <button onClick={this.handleJoinButtonClick.bind(this)}>Join</button>
                         <span> </span>
                         <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className="joinText" />
                     </p>
@@ -51,7 +52,7 @@ export default class GameControls extends Component {
             return (
                 <div>
                     <p>
-                        <button onClick={this.handleJoinButtonClick.bind(this)}>Watch game</button>
+                        <button onClick={this.handleWatchButtonClick.bind(this)}>Watch game</button>
                         <span> </span>
                         <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className="joinText" />
                     </p>
@@ -80,10 +81,17 @@ export default class GameControls extends Component {
         this.setState({ joinText: event.target.value })
     }
 
-    handleJoinButtonClick() {
+    handleWatchButtonClick() {
         const { store } = this.context;
         let gameId = this.state.joinText;
         store.dispatch(fetchGame(gameId));
+    }
+
+    handleJoinButtonClick() {
+        const { store } = this.context;
+        let authToken = store.getState().user.token;
+        let gameId = this.state.joinText;
+        store.dispatch(joinGame(gameId, authToken));
     }
 
     handleUsernameChanged(event) {

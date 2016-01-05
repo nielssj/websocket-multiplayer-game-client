@@ -7,6 +7,9 @@ export const START_GAME_FAILURE = 'START_GAME_FAILURE';
 export const FETCH_GAME_REQUEST = 'FETCH_GAME_REQUEST';
 export const FETCH_GAME_SUCCESS = 'FETCH_GAME_SUCCESS';
 export const FETCH_GAME_FAILURE = 'FETCH_GAME_FAILURE';
+export const JOIN_GAME_REQUEST = 'JOIN_GAME_REQUEST';
+export const JOIN_GAME_SUCCESS = 'JOIN_GAME_SUCCESS';
+export const JOIN_GAME_FAILURE = 'JOIN_GAME_FAILURE';
 export const TURN_TILE_REQUEST = 'TURN_TILE_REQUEST';
 export const TURN_TILE_SUCCESS = 'TURN_TILE_SUCCESS';
 export const TURN_TILE_FAILURE = 'TURN_TILE_FAILURE';
@@ -40,6 +43,18 @@ function fetchGameFailure(error) {
     return { type: FETCH_GAME_FAILURE, error}
 }
 
+function joinGameRequest() {
+    return { type: JOIN_GAME_REQUEST }
+}
+
+function joinGameSuccess(game) {
+    return { type: JOIN_GAME_SUCCESS, game }
+}
+
+function joinGameFailure(error) {
+    return { type: JOIN_GAME_FAILURE, error}
+}
+
 function turnTileRequest() {
     return { type: TURN_TILE_REQUEST }
 }
@@ -66,7 +81,7 @@ function loginFailure(error) {
 
 function listenToGame(dispatch, gameId) {
     if(socket) {
-        socket.disconnect();
+        socket.socket.disconnect();
     }
 
     socket = io(`http://localhost:3000/${gameId}`);
@@ -118,11 +133,32 @@ export function fetchGame(gameId) {
         return fetch(`http://localhost:3000/memory/game/${gameId}`)
             .then(response => response.json())
             .then(game => {
-                console.log("Joined game [" + game.id + "]");
+                console.log("Fetched game [" + game.id + "]");
                 listenToGame(dispatch, game.id);
                 dispatch(fetchGameSuccess(game))
             })
             .catch(response => dispatch(fetchGameFailure(response)));
+    }
+}
+
+export function joinGame(gameId, authToken) {
+    return dispatch => {
+        dispatch(joinGameRequest());
+        return fetch(`http://localhost:3000/memory/game/${gameId}/player`, {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": `Bearer ${authToken}`
+            }
+        })
+            .then(response => response.json())
+            .then(game => {
+                console.log("Joined game [" + game.id + "]");
+                listenToGame(dispatch, game.id);
+                dispatch(joinGameSuccess(game));
+            })
+            .catch(response => dispatch(joinGameFailure(response)));
     }
 }
 
