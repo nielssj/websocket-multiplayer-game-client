@@ -84,7 +84,7 @@ function listenToGame(dispatch, gameId) {
         socket.socket.disconnect();
     }
 
-    socket = io(`http://localhost:3000/${gameId}`);
+    socket = io(`http://localhost:3000/${gameId}`, { query: `ns=${gameId}` });
     socket.on("changed", game => {
         dispatch(fetchGameSuccess(game));
     })
