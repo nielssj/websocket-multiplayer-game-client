@@ -10,7 +10,7 @@ export default class GameControls extends Component {
     renderLogin() {
         let user = this.props.user;
         let loginError = user.lastLoginError ? user.lastLoginError.reason : "";
-        if(user.token) {
+        if(user.username) {
             return (
                 <p>
                     <button>Logout</button>
@@ -34,7 +34,7 @@ export default class GameControls extends Component {
     renderNavigation() {
         let user = this.props.user;
         let joinText = this.state.joinText;
-        if(user.token) {
+        if(user.username) {
             return (
                 <div>
                     <p>
@@ -73,8 +73,7 @@ export default class GameControls extends Component {
 
     onNewGameClick() {
         const { store } = this.context;
-        let authToken = store.getState().user.token;
-        return () => store.dispatch(startGame(authToken));
+        return () => store.dispatch(startGame());
     }
 
     handleJoinTextChanged(event) {
@@ -89,9 +88,8 @@ export default class GameControls extends Component {
 
     handleJoinButtonClick() {
         const { store } = this.context;
-        let authToken = store.getState().user.token;
         let gameId = this.state.joinText;
-        store.dispatch(joinGame(gameId, authToken));
+        store.dispatch(joinGame(gameId));
     }
 
     handleUsernameChanged(event) {

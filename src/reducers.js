@@ -14,7 +14,10 @@ import {
     TURN_TILE_FAILURE,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
-    LOGIN_FAILURE
+    LOGIN_FAILURE,
+    FETCH_USER_REQUEST,
+    FETCH_USER_SUCCESS,
+    FETCH_USER_FAILURE
 } from "./actions.js"
 
 const initialState = {
@@ -87,7 +90,6 @@ const memoryGame = (state = initialState, action = null) => {
             return Object.assign({}, state, {
                 user: {
                     isLoggingIn: false,
-                    token: action.token,
                     username: action.username
                 }
             });
@@ -96,6 +98,25 @@ const memoryGame = (state = initialState, action = null) => {
                 user: {
                     isLoggingIn: false,
                     lastLoginError: action.error
+                }
+            });
+        case FETCH_USER_REQUEST:
+            return Object.assign({}, state, {
+                user: {
+                    isFetchingUser: true
+                }
+            });
+        case FETCH_USER_SUCCESS:
+            return Object.assign({}, state, {
+                user: {
+                    isFetchingUser: false,
+                    username: action.username
+                }
+            });
+        case FETCH_USER_FAILURE:
+            return Object.assign({}, state, {
+                user: {
+                    isFetchingUser: false,
                 }
             });
         default:

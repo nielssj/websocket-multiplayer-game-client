@@ -16,6 +16,9 @@ export const TURN_TILE_FAILURE = 'TURN_TILE_FAILURE';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST';
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
+export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 
 var socket = null;
 
@@ -71,12 +74,24 @@ function loginRequest(username, password) {
     return { type: LOGIN_REQUEST, username, password }
 }
 
-function loginSuccess(username, token) {
-    return { type: LOGIN_SUCCESS, username, token }
+function loginSuccess(username) {
+    return { type: LOGIN_SUCCESS, username }
 }
 
 function loginFailure(error) {
     return { type: LOGIN_FAILURE, error }
+}
+
+function fetchUserRequest() {
+    return { type: FETCH_USER_REQUEST }
+}
+
+function fetchUserSuccess(username) {
+    return { type: FETCH_USER_SUCCESS, username }
+}
+
+function fetchUserFailure(error) {
+    return { type: FETCH_USER_FAILURE, error }
 }
 
 function listenToGame(dispatch, gameId) {
@@ -90,9 +105,10 @@ function listenToGame(dispatch, gameId) {
     })
 }
 
-export function turnTile(gameId, tileId, authToken) {
+export function turnTile(gameId, tileId) {
     return dispatch => {
         dispatch(turnTileRequest());
+        let authToken = localStorage.getItem("loginToken");
         return fetch(`http://localhost:3000/memory/game/${gameId}/move`, {
             method: 'post',
             headers: {
@@ -107,9 +123,10 @@ export function turnTile(gameId, tileId, authToken) {
     }
 }
 
-export function startGame(authToken) {
+export function startGame() {
     return dispatch => {
         dispatch(startGameRequest());
+        let authToken = localStorage.getItem("loginToken");
         return fetch("http://localhost:3000/memory/game", {
             method: 'post',
             headers: {
@@ -141,9 +158,10 @@ export function fetchGame(gameId) {
     }
 }
 
-export function joinGame(gameId, authToken) {
+export function joinGame(gameId) {
     return dispatch => {
         dispatch(joinGameRequest());
+        let authToken = localStorage.getItem("loginToken");
         return fetch(`http://localhost:3000/memory/game/${gameId}/player`, {
             method: 'post',
             headers: {
@@ -159,6 +177,29 @@ export function joinGame(gameId, authToken) {
                 dispatch(joinGameSuccess(game));
             })
             .catch(response => dispatch(joinGameFailure(response)));
+    }
+}
+
+export function fetchUser() {
+    return dispatch => {
+        let authToken = localStorage.getItem("loginToken");
+        if(authToken) {
+            dispatch(fetchUserRequest());
+            return fetch(`http://localhost:3000/memory/player`, {
+                method: "get",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${authToken}`
+                }
+            })
+                .then(response => response.json())
+                .then(user => {
+                    console.log("Fetched user [" + user.username + "]");
+                    dispatch(fetchUserSuccess(user.username));
+                })
+                .catch(response => dispatch(fetchUserFailure(response)));
+        }
     }
 }
 
@@ -179,7 +220,8 @@ export function login(username, password) {
             })
             .then(token => {
                 console.log("Logged in successfully [" + username + "]");
-                dispatch(loginSuccess(username, token));
+                localStorage.setItem("loginToken", token);
+                dispatch(loginSuccess(username));
             })
             .catch(response => response.json()
                     .then(error => dispatch(loginFailure(error))));
