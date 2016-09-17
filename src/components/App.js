@@ -6,7 +6,7 @@ import GameInfo from './GameInfo/GameInfo.js'
 import GameControls from './GameControls/GameControls.js'
 import { fetchUser, startGame, fetchGame, login, joinGame, turnTile } from '../actions.js'
 
-export default class App extends Component {
+class App extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(fetchUser()); // Request user info
