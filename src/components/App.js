@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import TileGrid from './TileGrid/TileGrid.js'
 import GameInfo from './GameInfo/GameInfo.js'
 import GameControls from './GameControls/GameControls.js'
-import { fetchUser } from '../actions.js'
+import { fetchUser, startGame, fetchGame, login, joinGame } from '../actions.js'
 
 export default class App extends Component {
     componentDidMount() {
@@ -27,10 +27,32 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <GameControls user={this.props.user} />
+                <GameControls
+                  user={this.props.user}
+                  onNewGameClick={this.onNewGameClick.bind(this)}
+                  onWatchClick={this.onWatchClick.bind(this)}
+                  onJoinClick={this.onJoinClick.bind(this)}
+                  onLoginClick={this.onLoginClick.bind(this)}
+                />
                 {this.renderGame()}
             </div>
         )
+    }
+
+    onNewGameClick() {
+      this.props.dispatch(startGame());
+    }
+
+    onWatchClick(gameId) {
+      this.props.dispatch(fetchGame(gameId));
+    }
+
+    onJoinClick(gameId) {
+      this.props.dispatch(joinGame(gameId));
+    }
+
+    onLoginClick(username, password) {
+      this.props.dispatch(login(username, password));
     }
 }
 

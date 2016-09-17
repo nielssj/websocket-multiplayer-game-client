@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import styles from './GameControls.css'
-import { startGame, fetchGame, login, joinGame } from '../../actions.js'
 
 export default class GameControls extends Component {
     constructor(props) {
@@ -21,11 +20,11 @@ export default class GameControls extends Component {
         } else {
             return (
                 <p>
-                    <button onClick={this.handleLoginClick.bind(this)}>Login</button>
+                    <button onClick={this.onLoginClick.bind(this)}>Login</button>
                     <span> </span>
-                    <input type="text" onChange={this.handleUsernameChanged.bind(this)} placeholder="username" />
+                    <input type="text" onChange={this.onUsernameChanged.bind(this)} placeholder="username" />
                     <span> </span>
-                    <input type="text" onChange={this.handlePasswordChanged.bind(this)} placeholder="password"  />
+                    <input type="text" onChange={this.onPasswordChanged.bind(this)} placeholder="password"  />
                     <span>{loginError}</span>
                 </p>
             )
@@ -39,13 +38,13 @@ export default class GameControls extends Component {
             return (
                 <div>
                     <p>
-                        <button onClick={this.onNewGameClick()}>New Game</button>
+                        <button onClick={this.props.onNewGameClick}>New Game</button>
                     </p>
                     <p>
-                        <button onClick={this.handleWatchButtonClick.bind(this)}>Watch game</button>
-                        <button onClick={this.handleJoinButtonClick.bind(this)}>Join</button>
+                        <button onClick={this.onWatchButtonClick.bind(this)}>Watch game</button>
+                        <button onClick={this.onJoinButtonClick.bind(this)}>Join</button>
                         <span> </span>
-                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className={styles.joinText} />
+                        <input type="text" value={joinText} onChange={this.onJoinTextChanged.bind(this)} className={styles.joinText} />
                     </p>
                 </div>
             )
@@ -53,9 +52,9 @@ export default class GameControls extends Component {
             return (
                 <div>
                     <p>
-                        <button onClick={this.handleWatchButtonClick.bind(this)}>Watch game</button>
+                        <button onClick={this.onWatchButtonClick.bind(this)}>Watch game</button>
                         <span> </span>
-                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className={styles.joinText} />
+                        <input type="text" value={joinText} onChange={this.onJoinTextChanged.bind(this)} className={styles.joinText} />
                     </p>
                 </div>
             )
@@ -63,7 +62,6 @@ export default class GameControls extends Component {
     }
 
     render() {
-        let joinText = this.state.joinText;
         return (
             <div className="gameControls">
                 {this.renderLogin()}
@@ -72,43 +70,31 @@ export default class GameControls extends Component {
         )
     }
 
-    onNewGameClick() {
-        const { store } = this.context;
-        return () => store.dispatch(startGame());
-    }
-
-    handleJoinTextChanged(event) {
+    onJoinTextChanged(event) {
         this.setState({ joinText: event.target.value })
     }
 
-    handleWatchButtonClick() {
-        const { store } = this.context;
+    onWatchButtonClick() {
         let gameId = this.state.joinText;
-        store.dispatch(fetchGame(gameId));
+        this.props.onWatchClick(gameId);
     }
 
-    handleJoinButtonClick() {
-        const { store } = this.context;
+    onJoinButtonClick() {
         let gameId = this.state.joinText;
-        store.dispatch(joinGame(gameId));
+        this.props.onJoinClick(gameId);
     }
 
-    handleUsernameChanged(event) {
+    onUsernameChanged(event) {
         this.setState({ username: event.target.value })
     }
 
-    handlePasswordChanged(event) {
+    onPasswordChanged(event) {
         this.setState({ password: event.target.value })
     }
 
-    handleLoginClick() {
-        const { store } = this.context;
+    onLoginClick() {
         let username = this.state.username;
         let password = this.state.password;
-        store.dispatch(login(username, password));
+        this.props.onLoginClick(username, password)
     }
 }
-
-GameControls.contextTypes = {
-    store: React.PropTypes.object
-};
