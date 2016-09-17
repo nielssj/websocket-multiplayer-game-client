@@ -10,6 +10,7 @@ storiesOf('TileGrid', module)
   .add('No tiles turned', () => (
     <TileGrid
       tiles={noTilesTurned}
+      onTileClick={action('Tile clicked')}
     />
   ))
   .add('Some tiles turned', () => (
