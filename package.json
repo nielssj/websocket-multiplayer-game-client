@@ -1,7 +1,7 @@
 {
-  "name": "memory-game-redux",
+  "name": "websocket-multiplayer-game-client",
   "version": "0.0.1",
-  "description": "A redux-bsaed client for a real-time multiplayer memory game",
+  "description": "Recreational project exploring use of websockets and RethinkDB to implement a real-time multiplayer game in a web browser",
   "scripts": {
     "build": "node node_modules/webpack/bin/webpack.js",
     "dev": "node node_modules/webpack/bin/webpack.js --watch",
