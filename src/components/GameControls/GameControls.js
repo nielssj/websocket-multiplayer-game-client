@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { startGame, fetchGame, login, joinGame } from '../actions.js'
+import styles from './GameControls.css'
+import { startGame, fetchGame, login, joinGame } from '../../actions.js'
 
 export default class GameControls extends Component {
     constructor(props) {
@@ -44,7 +45,7 @@ export default class GameControls extends Component {
                         <button onClick={this.handleWatchButtonClick.bind(this)}>Watch game</button>
                         <button onClick={this.handleJoinButtonClick.bind(this)}>Join</button>
                         <span> </span>
-                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className="joinText" />
+                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className={styles.joinText} />
                     </p>
                 </div>
             )
@@ -54,7 +55,7 @@ export default class GameControls extends Component {
                     <p>
                         <button onClick={this.handleWatchButtonClick.bind(this)}>Watch game</button>
                         <span> </span>
-                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className="joinText" />
+                        <input type="text" value={joinText} onChange={this.handleJoinTextChanged.bind(this)} className={styles.joinText} />
                     </p>
                 </div>
             )

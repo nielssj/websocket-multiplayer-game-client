@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import TileGrid from './TileGrid.js'
-import GameInfo from './GameInfo.js'
-import GameControls from './GameControls.js'
+import TileGrid from './TileGrid/TileGrid.js'
+import GameInfo from './GameInfo/GameInfo.js'
+import GameControls from './GameControls/GameControls.js'
 import { fetchUser } from '../actions.js'
 
 export default class App extends Component {

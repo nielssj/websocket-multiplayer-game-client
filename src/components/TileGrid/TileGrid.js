@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import Tile from './Tile.js'
+import styles from './TileGrid.css'
+import Tile from '../Tile/Tile.js'
 
 export default class TileGrid extends Component {
     render() {
@@ -10,7 +11,7 @@ export default class TileGrid extends Component {
         };
 
         return (
-            <div className="tileGrid" style={style}>
+            <div className={styles.tileGrid} style={style}>
                 {tiles.map((tile, index) =>
                     <Tile {...tile}
                         key={index}

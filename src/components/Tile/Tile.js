@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
+import styles from './Tile.css'
 import { connect } from 'react-redux'
-import { turnTile } from '../actions.js'
+import { turnTile } from '../../actions.js'
 
 export default class Tile extends Component {
     render() {
@@ -8,7 +9,7 @@ export default class Tile extends Component {
 
         return (
             <div
-                className="tile"
+                className={styles.tile}
                 onClick={turned ? undefined : this.onClick()}
                 style={{
                     backgroundColor: turned ? name : 'black',
