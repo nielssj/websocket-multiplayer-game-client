@@ -16,6 +16,7 @@ export default class TileGrid extends Component {
                     <Tile {...tile}
                         key={index}
                         index={index}
+                        onClick={this.props.onTileClick}
                     />
                 )}
             </div>
@@ -30,5 +31,6 @@ TileGrid.propTypes = {
             turned: PropTypes.bool.isRequired,
             completed: PropTypes.bool.isRequired
         }).isRequired
-    ).isRequired
+    ).isRequired,
+    onTileClick: PropTypes.func
 }

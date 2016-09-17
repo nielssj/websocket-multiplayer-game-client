@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import styles from './Tile.css'
-import { connect } from 'react-redux'
-import { turnTile } from '../../actions.js'
 
 export default class Tile extends Component {
     render() {
@@ -10,7 +8,7 @@ export default class Tile extends Component {
         return (
             <div
                 className={styles.tile}
-                onClick={turned ? undefined : this.onClick()}
+                onClick={turned ? undefined : this.onClick.bind(this)}
                 style={{
                     backgroundColor: turned ? name : 'black',
                     cursor: completed ? 'default' : 'pointer'
@@ -20,11 +18,10 @@ export default class Tile extends Component {
     }
 
     onClick() {
-        const { store } = this.context;
-        let gameId = store.getState().game.id;
-        let tileId = this.props.index;
-        return () =>
-            store.dispatch(turnTile(gameId, tileId));
+        if (this.props.onClick) {
+          let tileId = this.props.index;
+          this.props.onClick(tileId)
+        }
     }
 }
 
@@ -32,9 +29,6 @@ Tile.propTypes = {
     index: PropTypes.number.isRequired,
     name: PropTypes.string,
     turned: PropTypes.bool.isRequired,
-    completed: PropTypes.bool.isRequired
-}
-
-Tile.contextTypes = {
-    store: React.PropTypes.object
+    completed: PropTypes.bool.isRequired,
+    onClick: PropTypes.func
 }
