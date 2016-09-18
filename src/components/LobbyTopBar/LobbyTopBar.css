@@ -1,0 +1,27 @@
+.LobbyTopBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.rowLeft {
+    display: flex;
+}
+
+.rowLeft > div {
+    margin-right: 10px;
+}
+
+.rowRight {
+    display: flex;
+}
+
+.rowRight > div {
+    margin-left: 10px;
+}
+
+.textBlock {
+    line-height: 21px;
+}
