@@ -4,6 +4,7 @@ var options = {
   entry: "./index.js",
   output: {
     path: __dirname + '/static',
+    publicPath: '/static/',
     filename: "app.js"
   },
   devtool: "source-map",
