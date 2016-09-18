@@ -29,7 +29,7 @@ export default class GameControls extends Component {
   render() {
     let rows = this.props.games.map(this.renderRow.bind(this))
     return (
-      <div>
+      <div className={styles.list}>
         {rows}
       </div>
     )
