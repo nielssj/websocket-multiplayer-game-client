@@ -4,10 +4,10 @@ import styles from './Tile.css'
 export default class Tile extends Component {
     render() {
         const { turned, name, completed } = this.props;
-
+        let className = !turned ? `${styles.tile} ${styles.unturned}` : styles.tile
         return (
             <div
-                className={styles.tile}
+                className={className}
                 onClick={turned ? undefined : this.onClick.bind(this)}
                 style={{
                     backgroundColor: turned ? name : 'black',
