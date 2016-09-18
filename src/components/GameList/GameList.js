@@ -5,7 +5,7 @@ export default class GameControls extends Component {
   renderRow(game) {
     const onClick = this.onRowClick.bind(this, game.id)
     return (
-      <div className={styles.row} onClick={onClick}>
+      <div key={game.id} className={styles.row} onClick={onClick}>
         <div className={styles.rowLeft}>
           <div>#{game.number}</div>
           <div> - </div>
