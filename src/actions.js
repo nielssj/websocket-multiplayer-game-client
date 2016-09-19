@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
-import io from 'socket.io-client';
+import io from 'socket.io-client'
+import { browserHistory } from 'react-router'
 
 export const START_GAME_REQUEST = 'START_GAME_REQUEST';
 export const START_GAME_SUCCESS= 'START_GAME_SUCCESS';
@@ -139,7 +140,9 @@ export function startGame() {
             .then(game => {
                 console.log("Started game [" + game.id + "]");
                 listenToGame(dispatch, game.id);
-                dispatch(startGameSuccess(game))            })
+                dispatch(startGameSuccess(game))
+                browserHistory.push('/game/' + game.id)
+            })
             .catch(response => dispatch(startGameFailure()));
     }
 }
