@@ -3,18 +3,19 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import LobbyTopBar from '../components/LobbyTopBar/LobbyTopBar'
 import GameList from '../components/GameList/GameList'
+import { startGame, login } from '../actions.js'
 
 // FIXME: Fetch from backend and remove this
 const games = [
   {
-    id: '96cc1d95-234e-4476-b458-44a043d01c21',
+    id: '06e98f9d-e475-4a08-8dbf-84316ed550a2',
     number: 32,
     status: 'playing',
     playerCount: 2,
     watcherCount: 129
   },
   {
-    id: '09e644d4-899b-424e-8bdf-3b388b275d5f',
+    id: '64529bcd-6b5c-4d3e-9398-38dc82a6366b',
     number: 42,
     status: 'starting',
     playerCount: 1,
@@ -35,6 +36,14 @@ class Lobby extends Component {
   onGameClick(gameId) {
     const path = '/game/' + gameId
     browserHistory.push(path)
+  }
+
+  onNewGameClick() {
+    this.props.dispatch(startGame());
+  }
+
+  onLoginClick(username, password) {
+    this.props.dispatch(login(username, password));
   }
 }
 

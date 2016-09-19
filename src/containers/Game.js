@@ -1,60 +1,41 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import TileGrid from '../components/TileGrid/TileGrid.js'
 import GameInfo from '../components/GameInfo/GameInfo.js'
-import GameControls from '../components/GameControls/GameControls.js'
-import { fetchUser, startGame, fetchGame, login, joinGame, turnTile } from '../actions.js'
+import { fetchGame, joinGame, turnTile } from '../actions.js'
 
 
 class Game extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(fetchUser()); // Request user info
+        dispatch(fetchGame(this.props.params.gameId));
     }
 
     renderGame() {
-        // TODO: Use id from route (this.props.params.gameId)
-        const { tiles, players, id } = this.props.game; // Injected by connect() call
+        const { tiles, players } = this.props.game;
+        const gameId = this.props.params.gameId
         if(tiles.length > 0) {
             return (
                 <div>
-                    <GameInfo gameId={id} players={players} />
-                    <TileGrid tiles={tiles} onTileClick={this.onTileClick.bind(this, id)} />
+                    <GameInfo gameId={gameId} players={players} />
+                    <TileGrid tiles={tiles} onTileClick={this.onTileClick.bind(this, gameId)} />
                 </div>
             )
+        } else {
+          return <div>Loading..</div>
         }
     }
 
     render() {
         return (
             <div>
-                <GameControls
-                  user={this.props.user}
-                  onNewGameClick={this.onNewGameClick.bind(this)}
-                  onWatchClick={this.onWatchClick.bind(this)}
-                  onJoinClick={this.onJoinClick.bind(this)}
-                  onLoginClick={this.onLoginClick.bind(this)}
-                />
                 {this.renderGame()}
             </div>
         )
     }
 
-    onNewGameClick() {
-      this.props.dispatch(startGame());
-    }
-
-    onWatchClick(gameId) {
-      this.props.dispatch(fetchGame(gameId));
-    }
-
     onJoinClick(gameId) {
       this.props.dispatch(joinGame(gameId));
-    }
-
-    onLoginClick(username, password) {
-      this.props.dispatch(login(username, password));
     }
 
     onTileClick(gameId, tileId) {
