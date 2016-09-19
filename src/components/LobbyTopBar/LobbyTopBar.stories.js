@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf, action, linkTo } from '@kadira/storybook'
 import LobbyTopBar from './LobbyTopBar'
 
-const player = {
+const user = {
   id:"09e644d4-899b-424e-8bdf-3b388b275d5f",
   username:"John"
 }
@@ -15,7 +15,7 @@ storiesOf('LobbyTopBar', module)
   ))
   .add('Logged in', () => (
     <LobbyTopBar
-      player={player}
+      user={user}
       onLogout={linkTo('LobbyTopBar', 'Default')}
     />
   ))

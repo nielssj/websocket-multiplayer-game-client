@@ -8,10 +8,11 @@ export default class LobbyTopBar extends Component {
   }
 
   renderProfile() {
-    if (this.props.player) {
+    const user = this.props.user
+    if (user && user.username) {
       return (
         <div className={styles.rowRight}>
-          <div className={styles.textBlock}>Hello john!</div>
+          <div className={styles.textBlock}>Hello {user.username}!</div>
           <div><button onClick={this.props.onLogout}>Logout</button></div>
         </div>
       )

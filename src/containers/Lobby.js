@@ -27,7 +27,11 @@ class Lobby extends Component {
   render() {
     return (
       <div>
-        <LobbyTopBar />
+        <LobbyTopBar
+          user={this.props.user}
+          onNewGame={this.onNewGameClick.bind(this)}
+          onLogin={this.onLoginClick.bind(this)}
+        />
         <GameList games={games} onGameClick={this.onGameClick} />
       </div>
     )
