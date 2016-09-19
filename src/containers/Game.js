@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import TileGrid from '../components/TileGrid/TileGrid.js'
 import GameInfo from '../components/GameInfo/GameInfo.js'
+import GameControls from '../components/GameControls/GameControls'
 import { fetchGame, joinGame, turnTile } from '../actions.js'
 
 
@@ -9,6 +11,24 @@ class Game extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(fetchGame(this.props.params.gameId));
+    }
+
+    renderGameControls() {
+        const { user, game, params } = this.props
+
+        let canJoin = false
+        if (user.username) {
+          canJoin = game.players.some(p => p.username === user.username)
+        }
+
+        return (
+            <GameControls
+                gameId={params.gameId}
+                canJoin={canJoin}
+                onReturn={this.onReturnClick}
+                onJoin={this.onJoinClick.bind(this)}
+            />
+        )
     }
 
     renderGame() {
@@ -29,6 +49,7 @@ class Game extends Component {
     render() {
         return (
             <div>
+                {this.renderGameControls()}
                 {this.renderGame()}
             </div>
         )
@@ -40,6 +61,10 @@ class Game extends Component {
 
     onTileClick(gameId, tileId) {
       this.props.dispatch(turnTile(gameId, tileId));
+    }
+
+    onReturnClick() {
+      browserHistory.push('/lobby')
     }
 }
 
