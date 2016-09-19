@@ -18,7 +18,8 @@ class Game extends Component {
 
         let canJoin = false
         if (user.username) {
-          canJoin = game.players.some(p => p.username === user.username)
+          let playerNames = Object.values(game.players).map(p => p.username)
+          canJoin = (playerNames.indexOf(user.username) === -1)
         }
 
         return (
